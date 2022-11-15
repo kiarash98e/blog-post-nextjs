@@ -31,6 +31,9 @@ export default function handler(
     res.status(201).json({ data: newUser })
   }
   else{
-    res.status(200).json({ name: 'John Doe' })
+    const reqeust = path.join(process.cwd(),"data","user.json")
+    const readReq:any =  fs.readFileSync(reqeust)
+    const dataAll = JSON.parse(readReq)
+    res.status(200).json({ data: dataAll })
   }
 }

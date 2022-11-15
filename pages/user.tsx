@@ -1,6 +1,9 @@
 import React, { FormEvent } from 'react'
 
 function User() {
+    
+    const [feedbackItems,setFeedbackItems] = React.useState([])
+    
     const email = React.useRef() as any
     const text = React.useRef() as any
 
@@ -20,6 +23,15 @@ function User() {
         .then((res:any) => res.json())
         .then((data:any) => console.log(data))
     }
+
+    const loadData = () => {
+        fetch("/api/feedback")
+        .then((res:any) => res.json())
+        .then((data:any) => {
+            setFeedbackItems(data.data)
+        })
+
+    }
   return (
     <>
         <form >
@@ -27,6 +39,16 @@ function User() {
             <input ref={text} type="text" name="" id="" />
             <button onClick={createUser}>send</button>
         </form>
+        <hr />
+        <div>
+            <h4>feedback item</h4>
+            <button onClick={loadData}>load feedback</button>
+            <ul>
+                {feedbackItems && feedbackItems.map((item:any) => (
+                    <li key={item.id}>{item.text}</li>
+                ))}
+            </ul>
+        </div>
     </>
   )
 }
